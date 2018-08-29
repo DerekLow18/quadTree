@@ -50,19 +50,27 @@ while main == True:
 			pygame.quit(); sys.exit()
 			main = False
 
+		#initiates movement in some direction
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_LEFT or event.key == ord('a'):
 				player.control(-steps,0)
 			if event.key == pygame.K_RIGHT or event.key == ord('d'):
 				player.control(steps,0)
 			if event.key == pygame.K_UP or event.key == ord('w'):
-				print('jump')
+				player.control(0, -steps)
+			if event.key == pygame.K_DOWN or event.key == ord('s'):
+				player.control(0, steps)
 
+		#ends movement in that direction
 		if event.type == pygame.KEYUP:
 			if event.key == pygame.K_LEFT or event.key == ord('a'):
 				player.control(steps,0)
 			if event.key == pygame.K_RIGHT or event.key == ord('d'):
 				player.control(-steps,0)
+			if event.key == pygame.K_UP or event.key == ord('w'):
+				player.control(0, steps)
+			if event.key == pygame.K_DOWN or event.key == ord('s'):
+				player.control(0, -steps)
 			if event.key == ord('q'):
 				pygame.quit()
 				sys.exit()
