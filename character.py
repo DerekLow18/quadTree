@@ -23,6 +23,9 @@ class Player(pygame.sprite.Sprite):
 		self.movey = 0
 		self.frame = 0
 
+	def get_rect(self):
+		return self.rect
+
 	def control(self,x,y):
 		self.movex += x
 		self.movey += y

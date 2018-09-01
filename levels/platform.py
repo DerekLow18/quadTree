@@ -7,8 +7,10 @@ class Platform(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         #turn an image into a pygame image object
         self.image=pygame.image.load(os.path.join('images',img)).convert()
-        self.image.convert_alphta()
-        self.image.set_colorkey(ALPHA)
+        self.image.convert_alpha()
+        #self.image.set_colorkey(ALPHA)
         self.rect=self.image.get_rect()
         self.rect.y = yloc
         self.rect.x = xloc
+
+        

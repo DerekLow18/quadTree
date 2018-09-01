@@ -2,8 +2,13 @@ import pygame
 import os
 import sys
 
+sys.path.insert(0,'./levels/')
+
 #import other python scripts
 import character
+import platform
+import level1
+import quadtree
 '''
 Setup
 '''
@@ -33,7 +38,14 @@ player.rect.x = 100   # go to x
 player.rect.y = 100   # go to y
 player_list = pygame.sprite.Group()
 player_list.add(player)
+#level setup
+ground_list=level1.level1.ground(1,0,worldy-97, 1080,97)
+#plat_list = Level.platform(1)
 steps = 10 #how many pixels per movement
+
+game_objects = pygame.sprite.Group()
+game_objects.add(player_list)
+game_objects.add(ground_list)
 '''
 Main Loop
 '''
@@ -42,6 +54,8 @@ while main == True:
 	world.blit(backdrop, backdropbox)
 	player.update()
 	player_list.draw(world)
+	ground_list.draw(world)
+	#plat_list.draw(world)
 	pygame.display.flip()
 	clock.tick(fps)
 	#exit commands
@@ -75,3 +89,5 @@ while main == True:
 				pygame.quit()
 				sys.exit()
 				main = False
+		tree = quadtree.quadTree(0,pygame.Rect(0,0,worldx,worldy), game_objects.sprites())
+		tree.update(world)
