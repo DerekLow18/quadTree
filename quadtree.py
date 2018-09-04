@@ -3,6 +3,7 @@ this will handle the collision detection algorithms using
 the quadtree data structure.
 '''
 import pygame
+import collision
 
 displayTree = True
 
@@ -51,7 +52,8 @@ class quadTree(object):
         for i, entity in enumerate(self.entities):
             for entity2 in self.entities[i+1:]:
                 if pygame.sprite.collide_rect(entity,entity2):
-                    print("collision")
+                    print("collision detected")
+                    collision.collision(entity, entity2)
 
     def update(self,display):
         if len(self.entities) > self.maxentities and self.level <=self.maxlevel:

@@ -43,6 +43,7 @@ ground_list=level1.level1.ground(1,0,worldy-97, 1080,97)
 #plat_list = Level.platform(1)
 steps = 10 #how many pixels per movement
 
+#combine all spites into a single group
 game_objects = pygame.sprite.Group()
 game_objects.add(player_list)
 game_objects.add(ground_list)
@@ -58,36 +59,55 @@ while main == True:
 	#plat_list.draw(world)
 	pygame.display.flip()
 	clock.tick(fps)
-	#exit commands
+
+	pressed_left = False
+	pressed_right=False
+	pressed_up=False
+	pressed_down=False
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			pygame.quit(); sys.exit()
 			main = False
-
 		#initiates movement in some direction
-		if event.type == pygame.KEYDOWN:
+		elif event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_LEFT or event.key == ord('a'):
-				player.control(-steps,0)
-			if event.key == pygame.K_RIGHT or event.key == ord('d'):
-				player.control(steps,0)
-			if event.key == pygame.K_UP or event.key == ord('w'):
-				player.control(0, -steps)
-			if event.key == pygame.K_DOWN or event.key == ord('s'):
-				player.control(0, steps)
+				pressed_left = True
+				#player.control(-steps,0)
+			elif event.key == pygame.K_RIGHT or event.key == ord('d'):
+				pressed_right=True
+				#player.control(steps,0)
+			elif event.key == pygame.K_UP or event.key == ord('w'):
+				pressed_up=True
+				#player.control(0, -steps)
+			elif event.key == pygame.K_DOWN or event.key == ord('s'):
+				pressed_down=True
+				#player.control(0, steps)
 
 		#ends movement in that direction
-		if event.type == pygame.KEYUP:
+		elif event.type == pygame.KEYUP:
 			if event.key == pygame.K_LEFT or event.key == ord('a'):
+				pressed_left=False
 				player.control(steps,0)
-			if event.key == pygame.K_RIGHT or event.key == ord('d'):
+			elif event.key == pygame.K_RIGHT or event.key == ord('d'):
+				pressed_right=False
 				player.control(-steps,0)
-			if event.key == pygame.K_UP or event.key == ord('w'):
+			elif event.key == pygame.K_UP or event.key == ord('w'):
+				pressed_up=False
 				player.control(0, steps)
-			if event.key == pygame.K_DOWN or event.key == ord('s'):
+			elif event.key == pygame.K_DOWN or event.key == ord('s'):
+				pressed_down=False
 				player.control(0, -steps)
-			if event.key == ord('q'):
+			elif event.key == ord('q'):
 				pygame.quit()
 				sys.exit()
 				main = False
-		tree = quadtree.quadTree(0,pygame.Rect(0,0,worldx,worldy), game_objects.sprites())
-		tree.update(world)
+	if pressed_left:
+		player.control(-steps,0)
+	if pressed_right:
+		player.control(steps,0)
+	if pressed_up:
+		player.control(0, -steps)
+	if pressed_down:
+		player.control(0,steps)
+	tree = quadtree.quadTree(0,pygame.Rect(0,0,worldx,worldy), game_objects.sprites())
+	tree.update(world)
